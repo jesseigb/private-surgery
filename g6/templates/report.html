@@ -4,7 +4,7 @@
 
 <head>
 
-     <title>G6 Centre - Appointment</title>
+     <title>G6 Centre - Report</title>
 
      <!-- Meta -->
      <meta charset="UTF-8">
@@ -83,16 +83,21 @@
                          <section id="appointment" data-stellar-background-ratio="3">
 
                          <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
-                              <h2>Arrange an appointment</h2>
-                              <p>We can't wait to see you face to face </p>
+                              <h2>Make A Report</h2>
+                              <p>Have you got a concert? Make a report to your personal doctor</p>
                          </div>
 
                          <form id="appointment-form" role="form" method="post" action="#">
 
                               <div class="wow fadeInUp" data-wow-delay="0.8s">
                                    <div class="col-md-6 col-sm-6">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Full Name">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" class="form-control" id="first-name" name="first-name" placeholder="First Name">
+                                   </div>
+
+                                   <div class="col-md-6 col-sm-6">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Last Name">
                                    </div>
 
                                    <div class="col-md-6 col-sm-6">
@@ -101,29 +106,17 @@
                                    </div>
 
                                    <div class="col-md-6 col-sm-6">
-                                        <label for="gender">Select Gender</label>
-                                        <input type="text" name="gender" value="" class="form-control" placeholder="Gender">
-                                   </div>
-
-                                   <div class="col-md-6 col-sm-6">
-                                        <label for="select">Select Doctor Availability</label>
-                                        <select class="form-control">
-                                             <option>General Health</option>
-                                             <option>Cardiology</option>
-                                             <option>Dental</option>
-                                             <option>Medical Research</option>
-                                        </select>
+                                        <label for="telephone">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
                                    </div>
 
                                    <div class="col-md-12 col-sm-12">
-                                        <label for="telephone">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
-                                        <label for="Message">Comment</label>
-                                        <textarea class="form-control" rows="2" id="message" name="message" placeholder="Comment"></textarea>
-                                        <button type="submit" class="form-control" id="cf-submit" name="submit">Make Appoinment</button>
+                                        <label for="message">Report</label>
+                                        <textarea class="form-control" rows="2" id="message" name="message" placeholder="Report"></textarea>
+                                        <button type="submit" class="form-control" id="cf-submit" name="submit">Send Report</button>
                                    </div>
                               </div>
-                        </form>
+                         </form>
                     </section>
                     </div>
                     

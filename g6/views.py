@@ -8,8 +8,14 @@ def home(request):
 def appointment(request):
     return render(request, 'appointment.html', {})
 
+def report(request):
+    return render(request, 'report.html', {})
+
 def registration(request):
     return render(request, 'registration.html', {})
 
 def login(request):
     return render(request, 'login.html', {})
+
+def profile(request):
+    return render(request, 'my-profile.html', {})
