@@ -1,0 +1,80 @@
+{% load static %}
+<head>
+
+    <title>G6 Centre - Homepage</title>
+
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Tooplate">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Secondary Css -->
+    <link rel="stylesheet" href="{% static 'g6/css/homepage/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'g6/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'g6/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'g6/css/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'g6/css/owl.theme.default.min.css' %}">
+
+    <!-- Main Css -->
+    <link rel="stylesheet" href="{% static 'g6/css/homepage/homepage-styling.css' %}">
+
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+    <!-- Header Details Section -->
+    <header>
+         <div class="container">
+              <div class="row">
+
+                   <div class="col-md-4 col-sm-5">
+                         {% if user.is_authenticated %}
+                              <p>Welcome Back {{user.username}}!</p>
+                         {% else %}
+                              <p>Register or Log In to book appoinments!</p>
+                         {% endif %}
+                   </div>
+                        
+                   <div class="col-md-8 col-sm-7 text-align-right">
+                        <span class="phone-icon"><i class="fa fa-phone"></i>01632 960202</span>
+                        <span class="date-icon"><i class="fa fa-calendar-plus-o"></i> 7:00 AM - 11:00 PM (Mon-Sat)</span>
+                        <span class="email-icon"><i class="fa fa-envelope-o"></i> <a href="#">g6@nhs.co.uk</a></span>
+                   </div>
+
+              </div>
+         </div>
+    </header>
+
+
+    <!-- Header Menu Section -->
+    <section class="navbar navbar-default navbar-static-top" role="navigation">
+         <div class="container">
+
+              <div class="navbar-header">
+                   <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                   </button>
+
+                   <img src="{% static 'g6/img/logo.png' %}" style="height: 50px; width: auto" >
+              </div>
+
+              <!-- Navigation Links -->
+              <div class="collapse navbar-collapse">
+                   <ul class="nav navbar-nav navbar-right">
+                        <li><a href="homepage" class="smoothScroll">Home</a></li>
+                        {% if user.is_authenticated %}
+                              <li><a href="about" class="smoothScroll">About Us</a></li>
+                              <li><a href="profile" class="smoothScroll">My Profile</a></li>
+                              <li class="appointment-btn"><a href="{% url 'logout' %}">Log Off</a></li>
+                         {% else %}
+                              <li class="appointment-btn"><a href="{% url 'login' %}">Log In</a></li>
+                        {% endif %}
+                   </ul>
+              </div>
+
+         </div>
+    </section>

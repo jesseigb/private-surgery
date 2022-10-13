@@ -60,12 +60,12 @@
                     </div>
 
                     <form id="appointment-form" role="form" method="post" action="#">
-
+                         {% csrf_token %}
                          <div class="wow fadeInUp" data-wow-delay="0.8s">
 
                               <div class="col-md-6 col-sm-6">
                                    <label for="hospital-number">Hospital Number</label>
-                                   <input type="number" class="form-control" id="hospital-number" name="hospital-number" placeholder="Hospital Number">
+                                   <input type="text" class="form-control" id="hospital-number" name="username" placeholder="Hospital Number">
                               </div>
 
                               <div class="col-md-6 col-sm-6">

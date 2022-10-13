@@ -60,43 +60,54 @@
                     </div>
 
                     <form id="appointment-form" role="form" method="post" action="#">
-
+                         {% csrf_token %}
                          <div class="wow fadeInUp" data-wow-delay="0.8s">
                               <div class="col-md-6 col-sm-6">
-                                   <label for="first-name">First Name</label>
-                                   <input type="text" class="form-control" id="first-name" name="first-name" placeholder="First Name">
+                                   <label for="first-name">{{form.username.label}}</label>
+                                   {{form.username}}
                               </div>
 
                               <div class="col-md-6 col-sm-6">
-                                   <label for="last-name">Last Name</label>
-                                   <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Last Name">
+                                   <label for="first_name">{{form.first_name.label}}</label>
+                                   {{form.first_name}}
                               </div>
 
                               <div class="col-md-6 col-sm-6">
-                                   <label for="email">Email</label>
-                                   <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
+                                   <label for="last_name">{{form.last_name.label}}</label>
+                                   {{form.last_name}}
                               </div>
 
                               <div class="col-md-6 col-sm-6">
-                                   <label for="gender">Select Gender</label>
-                                   <select class="form-control">
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                   </select>
+                                   <label for="email">{{form.email.label}}</label>
+                                   {{form.email}}
+                              </div>
+                              
+                              <div class="col-md-6 col-sm-6">
+                                   <label for="gender">{{form.gender.label}}</label>
+                                   {{form.gender}}
                               </div>
 
-                              <div class="col-md-6 col-sm-6">
+                              <!--<div class="col-md-6 col-sm-6">
                                    <label for="select">Select Personal Doctor</label>
                                    <select class="form-control">
                                         <option>General Health</option>
                                         <option>Cardiology</option>
                                         <option>Dental</option>
                                    </select>
-                              </div>
+                              </div>-->
 
-                              <div class="col-md-6 col-sm-6">
+                              <!--<div class="col-md-6 col-sm-6">
                                    <label for="telephone">Phone Number</label>
                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
+                              </div>-->
+
+                              <div class="col-md-6 col-sm-6">
+                                   <label for="password1">{{form.password1.label}}</label>
+                                   {{form.password1}}
+                              </div>
+                              <div class="col-md-6 col-sm-6">
+                                   <label for="password2">{{form.password2.label}}</label>
+                                   {{form.password2}}
                               </div>
 
                               <div class="col-md-12 col-sm-12">
@@ -104,6 +115,7 @@
                               </div>
                          </div>
                     </form>
+                    <p>{{form.errors}}</p>
                </section>
                </div>
                

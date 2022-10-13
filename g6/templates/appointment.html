@@ -2,77 +2,7 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 
-<head>
-
-     <title>G6 Centre - Appointment</title>
-
-     <!-- Meta -->
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-     <meta name="description" content="">
-     <meta name="keywords" content="">
-     <meta name="author" content="Tooplate">
-     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-     <!-- Secondary Css -->
-     <link rel="stylesheet" href="{% static 'g6/css/homepage/bootstrap.min.css' %}">
-     <link rel="stylesheet" href="{% static 'g6/css/font-awesome.min.css' %}">
-     <link rel="stylesheet" href="{% static 'g6/css/animate.css' %}">
-     <link rel="stylesheet" href="{% static 'g6/css/owl.carousel.css' %}">
-     <link rel="stylesheet" href="{% static 'g6/css/owl.theme.default.min.css' %}">
-
-     <!-- Main Css -->
-     <link rel="stylesheet" href="{% static 'g6/css/homepage/homepage-styling.css' %}">
-
-</head>
-<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-
-     <!-- Header Details Section -->
-     <header>
-          <div class="container">
-               <div class="row">
-
-                    <div class="col-md-4 col-sm-5">
-                         <p>Welcome Jesse</p>
-                    </div>
-                         
-                    <div class="col-md-8 col-sm-7 text-align-right">
-                         <span class="phone-icon"><i class="fa fa-phone"></i>01632 960202</span>
-                         <span class="date-icon"><i class="fa fa-calendar-plus-o"></i> 7:00 AM - 11:00 PM (Mon-Sat)</span>
-                         <span class="email-icon"><i class="fa fa-envelope-o"></i> <a href="#">g6@nhs.co.uk</a></span>
-                    </div>
-
-               </div>
-          </div>
-     </header>
-
-
-     <!-- Header Menu Section -->
-     <section class="navbar navbar-default navbar-static-top" role="navigation">
-          <div class="container">
-
-               <div class="navbar-header">
-                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                         <span class="icon icon-bar"></span>
-                    </button>
-
-                    <img src="{% static 'g6/img/logo.png' %}" style="height: 50px; width: auto" >
-               </div>
-
-               <!-- Navigation Links -->
-               <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                         <li><a href="homepage" class="smoothScroll">Home</a></li>
-                         <li><a href="#about" class="smoothScroll">About Us</a></li>
-                         <li><a href="profile" class="smoothScroll">My Profile</a></li>
-                         <li class="appointment-btn"><a href="login">Log Off</a></li>
-                    </ul>
-               </div>
-
-          </div>
-     </section>
+     {% include "header.html" %}
 
      <!-- Appointment Section -->
      <section id="none">
@@ -88,38 +18,23 @@
                          </div>
 
                          <form id="appointment-form" role="form" method="post" action="#">
-
-                              <div class="wow fadeInUp" data-wow-delay="0.8s">
-                                   <div class="col-md-6 col-sm-6">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Full Name">
-                                   </div>
-
-                                   <div class="col-md-6 col-sm-6">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
-                                   </div>
-
-                                   <div class="col-md-6 col-sm-6">
-                                        <label for="gender">Select Gender</label>
-                                        <input type="text" name="gender" value="" class="form-control" placeholder="Gender">
-                                   </div>
-
+                              {% csrf_token %}
                                    <div class="col-md-6 col-sm-6">
                                         <label for="select">Select Doctor Availability</label>
-                                        <select class="form-control">
-                                             <option>General Health</option>
-                                             <option>Cardiology</option>
-                                             <option>Dental</option>
-                                             <option>Medical Research</option>
+                                        <select name="availability" class="form-control">
+                                             {% for item in all %}
+                                                  {% if item.full == False %}
+                                                       <option value="{{item.id}}">with Dr. {{item.doctor.user.first_name}} {{item.doctor.user.last_name}} on {{item.date}} at {{item.time}}</option>
+                                                  {% endif %}
+                                             {% endfor %}
                                         </select>
                                    </div>
 
-                                   <div class="col-md-12 col-sm-12">
-                                        <label for="telephone">Phone Number</label>
-                                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
+                                   <div class="col-md-6 col-sm-6">
                                         <label for="Message">Comment</label>
-                                        <textarea class="form-control" rows="2" id="message" name="message" placeholder="Comment"></textarea>
+                                        <textarea class="form-control" rows="2" id="message" name="comment" placeholder="Comment"></textarea>
+                                   </div>
+                                   <div class="col-md-6 col-sm-6">
                                         <button type="submit" class="form-control" id="cf-submit" name="submit">Make Appoinment</button>
                                    </div>
                               </div>
@@ -131,56 +46,7 @@
           </div>
      </section>
 
-     <!-- Footer Section -->
-     <footer data-stellar-background-ratio="5">
-          <div class="container">
-               <div class="row">
+     {% include "footer.html" %}
 
-                    <div class="col-md-4 col-sm-4">
-                         <div class="footer-thumb"> 
-                              <h4 class="wow fadeInUp" data-wow-delay="0.4s">Contact Us</h4>
-                              <p>If you need help do not esitate to contact us directly! We are always here to help you</p>
-
-                              <div class="contact-info">
-                                   <p><i class="fa fa-phone"></i>01632 960202</p>
-                                   <p><i class="fa fa-envelope-o"></i> <a href="#">g6@nhs.co.uk</a></p>
-                              </div>
-                         </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4" style="visibility: hidden"> 
-                    </div>
-
-
-                    <div class="col-md-4 col-sm-4"> 
-                         <div class="footer-thumb">
-                              <div class="opening-hours">
-                                   <h4 class="wow fadeInUp" data-wow-delay="0.4s">Our Times</h4>
-                                   <p>Monday - Saturday <span>07:00 AM - 11:00 PM</span></p>
-                                   <p>Sunday <span>Closed</span></p>
-                              </div> 
-                         </div>
-                    </div>
-
-                    <div class="col-md-12 col-sm-12 border-top">
-                         <div class="col-md-4 col-sm-6">
-                              <div class="copyright-text"> 
-                                   <p>Copyright &copy; Skillcity Group 6 Software Engineer </p>
-                              </div>
-                         </div>  
-                    </div>
-                    
-               </div>
-          </div>
-     </footer>
-
-     <!-- JavaScript Section -->
-     <script src="{% static 'g6/js/homepage/jquery.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/bootstrap.min.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/jquery.sticky.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/jquery.stellar.min.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/wow.min.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/smoothscroll.js' %}"></script>
-     <script src="{% static 'g6/js/homepage/owl.carousel.min.js' %}"></script>
 </body>
 </html>

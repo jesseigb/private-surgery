@@ -7,6 +7,46 @@
     overflow-x: hidden;
   }
 
+  /*---------------------------------------
+  PROFILE CSS SECTION              
+  -----------------------------------------*/
+  #left-side-profile {
+    background: white;
+    height: 350px;
+    border: 1px solid #e7e7e7;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 8px 8px #F5F5F5;
+  }
+
+  #right-side-profile {
+    background: white;
+    height: 350px;
+    border: 1px solid #e7e7e7;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 8px 8px #F5F5F5;
+  }
+
+  .profile-options-buttons {
+    border-radius: 3px;
+    background: #C70039;
+    height: 40px;
+    margin-top: 5px;
+    color: white;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-options-buttons:hover {
+    background: #4267b2;
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 0.4s;
+    transition: all ease-in-out 0.4s;
+  }
+
+
 
   /*---------------------------------------
   TYPOGRAPHY              
