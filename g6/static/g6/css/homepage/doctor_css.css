@@ -1,0 +1,11 @@
+#appointment .form-control#dl-submit {
+    background: #17A2B8;
+    color: #ffffff;
+    font-weight: 600;
+    height: 55px;
+}
+
+#appointment .form-control#dl-submit:hover {
+    background: #393939;
+    color: #ffffff;
+}

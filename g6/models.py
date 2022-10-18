@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-# This table contains all the registered patients
+# This table contains all the registered patients extending
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(max_length=200)
@@ -53,6 +53,10 @@ class Report(models.Model):
         'Patient',
         on_delete=models.CASCADE,
     )
+    personal_doctor = models.ForeignKey (
+        'Doctor',
+        on_delete=models.CASCADE,
+    )
     date = models.DateField(max_length=200)
-    time = models.DateTimeField(max_length=200)
+    time = models.TimeField(max_length=200)
     issue = models.CharField(max_length=200)
