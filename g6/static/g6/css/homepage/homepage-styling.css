@@ -46,6 +46,13 @@
     transition: all ease-in-out 0.4s;
   }
 
+  .profile-div-content {
+    display:grid; 
+    justify-content:center; 
+    align-items: center; 
+    border-right: 1px solid lightgray; 
+    height: 100%;
+  }
 
 
   /*---------------------------------------

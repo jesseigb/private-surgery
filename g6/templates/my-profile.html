@@ -23,11 +23,8 @@
                                                   <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>Dr. {{item.appointment_details.doctor.user.first_name}} {{item.appointment_details.doctor.user.last_name}}</p></div>
                                                   <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>{{item.appointment_details.date}}</p></div>
                                                   <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-2"><p>{{item.appointment_details.time}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-2">
-                                                       <button>Cancel</button>
-                                                  </div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; height: 100%;" class="col-md-2">
-                                                       <button>Edit</button>
+                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-4">
+                                                       <a href="{% url 'cancel_appointment' item.id %}"><button>Cancel</button></a>
                                                   </div>
                                              </div>
                                         </div>

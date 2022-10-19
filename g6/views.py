@@ -1,4 +1,5 @@
 from pydoc import Doc
+from zoneinfo import available_timezones
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -78,6 +79,11 @@ def logout_user(request):
     messages.success(request, ("You were logged off"))
     return redirect('login')
 
+def logout_doctor(request):
+    logout(request)
+    messages.success(request, ("You were logged off"))
+    return redirect('login_doctor')
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -92,7 +98,6 @@ def login_user(request):
 
     return render(request, 'login.html', {})
 
-#------- Doctors Login -------#
 def login_doctor(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -102,7 +107,7 @@ def login_doctor(request):
         if user is not None:
             if Doctor.objects.filter(user=user):
                 login(request, user)
-                return redirect('home')
+                return redirect('doctor_dashboard')
             else:
                 messages.success(request, ("Only doctor can have access"))
                 return redirect('login_doctor')
@@ -123,12 +128,54 @@ def profile(request):
 def doctor_dashboard(request):
 
     doctor = Doctor.objects.get(user=request.user)
-    all_appointments = Appointment.objects.filter(patient=patient)
+    all_appointments = Appointment.objects.all()
+    doctor_appointments = []
     all_reports = Report.objects.filter(personal_doctor=doctor)
+    all_availabilities = Doctor_Availability.objects.filter(doctor=doctor, full=False)
 
-    return render(request, 'doctor-dashboard.html', {'appointments': all_appointments, 'doctor': doctor, 'reports': all_reports})
+    for appointment in all_appointments:
+        if appointment.appointment_details.doctor == doctor:
+            doctor_appointments.append(appointment)
+        
+    return render(request, 'doctor-dashboard.html', {'availabilities': all_availabilities,'appointments': doctor_appointments, 'doctor': doctor, 'reports': all_reports})
 
 def about(request):
     return render(request, 'about-us.html', {})
 
+def cancel_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    doctor_availability = Doctor_Availability.objects.filter(id=appointment.appointment_details.id)
 
+    doctor_availability.update(full=False)
+    appointment.delete()
+
+    return redirect(request.META["HTTP_REFERER"])
+
+def edit_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    doctor_availability = Doctor_Availability.objects.filter(id=appointment.appointment_details.id)
+    date = request.GET['date']
+    time = request.GET['time']
+
+    doctor_availability.update(date=date, time=time)
+
+    # Send an email
+    send_mail(
+        'Appointment Date Change', # Email Subject
+            'Your Appointment with Dr ' + request.user.first_name + ' ' 
+            + request.user.last_name + ' has been revised. Log into your account to see it.',  # Email body message
+            '1yunusarslan1@gmail.com', # From email
+            [appointment.patient.user.email], # To email
+    )
+
+    return redirect('doctor_dashboard')
+
+def add_availability(request):
+    doctor = Doctor.objects.get(user=request.user)
+    date = request.GET['date']
+    time = request.GET['time']
+
+    new_availability = Doctor_Availability(doctor=doctor, date=date, time=time)
+    new_availability.save()
+
+    return redirect('doctor_dashboard')

@@ -1,18 +1,94 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en-GB">
+     
+     {% load static %}
+     <head>
 
-     {% include "header.html" %}
+     <title>G6 Centre - Doctor Dashboard</title>
+
+     <!-- Meta -->
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="author" content="Tooplate">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <!-- Secondary Css -->
+     <link rel="stylesheet" href="{% static 'g6/css/homepage/bootstrap.min.css' %}">
+     <link rel="stylesheet" href="{% static 'g6/css/font-awesome.min.css' %}">
+     <link rel="stylesheet" href="{% static 'g6/css/animate.css' %}">
+     <link rel="stylesheet" href="{% static 'g6/css/owl.carousel.css' %}">
+     <link rel="stylesheet" href="{% static 'g6/css/owl.theme.default.min.css' %}">
+
+     <!-- Main Css -->
+     <link rel="stylesheet" href="{% static 'g6/css/homepage/homepage-styling.css' %}">
+     <link rel="stylesheet" href="{% static 'g6/css/homepage/doctor_css.css' %}">
+
+     </head>
+
+     <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+     <!-- Header Details Section -->
+     <header>
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-4 col-sm-5">
+                              {% if user.is_authenticated %}
+                                   <p>Welcome Back {{user.username}}!</p>
+                              {% else %}
+                                   <p>Register or Log In to manage appoinments!</p>
+                              {% endif %}
+                    </div>
+                         
+                    <div class="col-md-8 col-sm-7 text-align-right">
+                         <span class="phone-icon"><i class="fa fa-phone"></i>01632 960202</span>
+                         <span class="date-icon"><i class="fa fa-calendar-plus-o"></i> 7:00 AM - 11:00 PM (Mon-Sat)</span>
+                         <span class="email-icon"><i class="fa fa-envelope-o"></i> <a href="#">g6@nhs.co.uk</a></span>
+                    </div>
+
+               </div>
+          </div>
+     </header>
+
+
+     <!-- Header Menu Section -->
+     <section class="navbar navbar-default navbar-static-top" role="navigation">
+          <div class="container">
+
+               <div class="navbar-header">
+                    <img src="{% static 'g6/img/logo.png' %}" style="height: 50px; width: auto" >
+               </div>
+
+               <!-- Navigation Links -->
+               <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                         {% if user.is_authenticated %}
+                                   <li class="appointment-btn"><a href="{% url 'logout_doctor' %}">Log Off</a></li>
+                              {% else %}
+                                   <li class="appointment-btn"><a href="{% url 'login_doctor' %}">Log In</a></li>
+                         {% endif %}
+                    </ul>
+               </div>
+
+          </div>
+     </section>
 
      <!-- Profile Section -->
      <section id="team">
           <div class="container">
                <div class="row">
+                    <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                         <h2>Manage appointments and reports</h2>
+                    </div>
                     <div class="col-md-12 col-sm-12">
                          <div id="left-side-profile" class="col-md-3">
                               <div onclick="profileMenu()" id="my-details-button" class="profile-options-buttons appointment-btn"><h5>My Details</h5></div>
                               <div onclick="profileMenu()" id="my-appointment-button" class="profile-options-buttons appointment-btn"><h5>My Appointments</h5></div>
                               <div onclick="profileMenu()" id="my-report-button" class="profile-options-buttons appointment-btn"><h5>My Reports</h5></div>
+                              <div onclick="profileMenu()" id="my-availabilities-button" class="profile-options-buttons appointment-btn"><h5>My Availabilities</h5></div>
                          </div>
                          <div id="right-side-profile" class="col-md-9">
                               <div style="display: none;" id="appointment-section">
@@ -20,15 +96,18 @@
                                    {% for item in appointments %}
                                         <div class="row">
                                              <div style="padding-left: 10px; border-bottom: 1px solid lightgray; border-top: 1px solid lightgray; height: 50px; ">
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>Dr. {{item.appointment_details.doctor.user.first_name}} {{item.appointment_details.doctor.user.last_name}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>{{item.appointment_details.date}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-2"><p>{{item.appointment_details.time}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-2">
-                                                       <button>Cancel</button>
+                                                  <div class="profile-div-content col-md-3"><p>With {{item.patient.user.first_name}} {{item.patient.user.last_name}}</p></div>
+                                                  <div class="profile-div-content col-md-3"><p>{{item.appointment_details.date}}</p></div>
+                                                  <div class="profile-div-content col-md-2"><p>{{item.appointment_details.time}}</p></div>
+                                                  <div class="profile-div-content col-md-4">
+                                                       <a href="{% url 'cancel_appointment' item.id %}"><button>Cancel</button></a>
                                                   </div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; height: 100%;" class="col-md-2">
-                                                       <button>Edit</button>
-                                                  </div>
+                                                  <form method="get" action="{% url 'edit_appointment' item.id %}">
+                                                       {% csrf_token %}
+                                                       <input name="date" type="date" placeholder="Date">
+                                                       <input name="time" type="time" placeholder="Time">
+                                                       <input type="submit" value="Edit Appointment">
+                                                  </form>
                                              </div>
                                         </div>
                                    {% endfor %}
@@ -38,9 +117,9 @@
                                    {% for item in reports %}
                                    <div class="row">
                                         <div style="padding-left: 10px; border-bottom: 1px solid lightgray; border-top: 1px solid lightgray; height: 50px; ">
-                                             <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p> Sent To Dr. {{item.personal_doctor.user.first_name}} {{item.personal_doctor.user.last_name}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>{{item.date}} at {{item.time}}</p></div>
-                                                  <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-6"><p>Report Message: {{item.issue}}</p></div> 
+                                             <div class="profile-div-content col-md-3"><p> Sent By {{item.patient.user.first_name}} {{item.patient.user.last_name}}</p></div>
+                                             <div class="profile-div-content col-md-3"><p>{{item.date}} at {{item.time}}</p></div>
+                                             <div class="profile-div-content col-md-6"><p>Report Message: {{item.issue}}</p></div> 
                                         </div>
                                    </div>
                                    {% endfor %}
@@ -49,12 +128,27 @@
                                    <h4>Your Details</h4>
                                    <div class="row">
                                         <div style="padding-left: 10px; border-bottom: 1px solid lightgray; border-top: 1px solid lightgray; height: 50px; ">
-                                             <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>{{user.first_name}} {{user.last_name}}</p></div>
-                                             <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-3"><p>{{patient.date_of_birth}}</p></div>
-                                             <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-4"><p>{{user.email}}</p></div>
-                                             <div style="display:grid; justify-content:center; align-items: center; border-right: 1px solid lightgray; height: 100%;" class="col-md-2"><p>{{patient.personal_doctor.user.first_name}} {{patient.personal_doctor.user.last_name}}</p></div>
+                                             <div class="profile-div-content col-md-3"><p>Dr {{user.first_name}} {{user.last_name}}</p></div>
+                                             <div class="profile-div-content col-md-3"><p>{{doctor.department}} Department</p></div>
+                                             <div class="profile-div-content col-md-6"><p>{{user.email}}</p></div>
                                         </div>
                                    </div>
+                              </div>
+                              <div style="display: none" id="availabilities-section">
+                                   <h4>Your Availabilities</h4>
+                                   
+                                   <label for="availabilities">All your availabilities:</label>
+                                   <select name="availabilities">
+                                        {% for item in availabilities %}
+                                             <option>{{item.date}} at {{item.time}}</option>
+                                        {% endfor %}
+                                   </select>
+                                   <h5>Add Availabilities</h5>
+                                   <form method="get" action="{% url 'add_availability' %}">
+                                        <input name="date" type="date" placeholder="Date">
+                                        <input name="time" type="time" placeholder="Time">
+                                        <input type="submit" value="Add Availability">
+                                   </form>   
                               </div>
                          </div>
                     </div>
@@ -63,7 +157,14 @@
           </div>
      </section>
 
-     {% include "footer.html" %}
-
+     <!-- JavaScript Section -->
+     <script src="{% static 'g6/js/homepage/script.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/jquery.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/bootstrap.min.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/jquery.sticky.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/jquery.stellar.min.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/wow.min.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/smoothscroll.js' %}"></script>
+     <script src="{% static 'g6/js/homepage/owl.carousel.min.js' %}"></script>
 </body>
 </html>
