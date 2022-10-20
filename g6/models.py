@@ -10,14 +10,11 @@ class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(max_length=200)
     gender = models.CharField(max_length=200, choices=[('Male','Male'), ('Female', 'Female')])
-    contact_number = models.IntegerField
+    contact_number = models.IntegerField()
     personal_doctor = models.ForeignKey (
         'Doctor',
         on_delete=models.CASCADE,
     )
-
-    def __str__(self):
-        return self.user.username
 
 # This table containes all the doctors 
 class Doctor(models.Model):

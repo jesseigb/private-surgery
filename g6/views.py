@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 import logging
 from django.core.mail import send_mail
 from datetime import *
+from datetime import datetime
+import re
 
 # Create your views here.
 
@@ -59,19 +61,33 @@ def report(request):
     return render(request, 'report.html', {})
 
 def registration(request):
+
+    all_doctors = Doctor.objects.all()
+
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
+            gender = form.cleaned_data['gender']
+            date_of_birth = datetime.strptime(request.POST['date_of_birth'], "%Y-%m-%d")
+            contact_number = form.cleaned_data['contact_number']
+            doctor_id = request.POST['doctor']
+            personal_doctor = Doctor.objects.get(id=doctor_id)
             user = authenticate(username=username, password=password)
+
+            new_patient = Patient(user=user,date_of_birth=date_of_birth,gender=gender,contact_number=contact_number,
+            personal_doctor=personal_doctor)
+            new_patient.save()
+
             login(request, user)
             return redirect('home')
     else:
         form = CreateUserForm()
 
-    context = {'form': form}
+    context = {'form': form, 'doctors': all_doctors}
     return render(request, 'registration.html', context)
 
 def logout_user(request):
@@ -140,7 +156,10 @@ def doctor_dashboard(request):
     return render(request, 'doctor-dashboard.html', {'availabilities': all_availabilities,'appointments': doctor_appointments, 'doctor': doctor, 'reports': all_reports})
 
 def about(request):
-    return render(request, 'about-us.html', {})
+
+    doctors = Doctor.objects.all()
+
+    return render(request, 'about-us.html', {'doctors': doctors})
 
 def cancel_appointment(request, id):
     appointment = Appointment.objects.get(id=id)
@@ -177,5 +196,28 @@ def add_availability(request):
 
     new_availability = Doctor_Availability(doctor=doctor, date=date, time=time)
     new_availability.save()
+
+    return redirect('doctor_dashboard')
+
+def report_reply(request, id):
+    report = Report.objects.get(id=id)
+    patient = report.patient.user
+    reply_message = request.GET['reply-text']
+    bot_text = ""
+
+    if re.search('suicide|depression|kill my self', report.issue):
+        bot_text = 'For mental health concerns please call 116 123, there is always help for you, you are never alone'
+    
+    email_body = 'Your report: ' + report.issue + "\n" + 'Doctor reply: ' + reply_message + "\n" + bot_text
+
+    # Send an email
+    send_mail(
+        'Re: Your doctor has replied to your report', # Email Subject
+        email_body, # Email body message
+        '1yunusarslan1@gmail.com', # From email
+        [patient.email], # To email
+    )
+
+    report.delete()
 
     return redirect('doctor_dashboard')
