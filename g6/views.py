@@ -43,6 +43,7 @@ def appointment(request):
             [request.user.email], # To email
         )
 
+        messages.success(request, ('Appointment successfully arranged, see you soon!'))
 
     return render(request, 'appointment.html', {'all': all_availability})
 
@@ -168,6 +169,7 @@ def cancel_appointment(request, id):
     doctor_availability.update(full=False)
     appointment.delete()
 
+    messages.success(request, ('Appointment has been cancelled'))
     return redirect(request.META["HTTP_REFERER"])
 
 def edit_appointment(request, id):
@@ -187,6 +189,7 @@ def edit_appointment(request, id):
             [appointment.patient.user.email], # To email
     )
 
+    messages.success(request, ('Appointment successfully edited'))
     return redirect('doctor_dashboard')
 
 def add_availability(request):
@@ -197,6 +200,7 @@ def add_availability(request):
     new_availability = Doctor_Availability(doctor=doctor, date=date, time=time)
     new_availability.save()
 
+    messages.success(request, ('Availability successfully added, get ready!'))
     return redirect('doctor_dashboard')
 
 def report_reply(request, id):
@@ -220,4 +224,5 @@ def report_reply(request, id):
 
     report.delete()
 
+    messages.success(request, ('Reply successfully sent'))
     return redirect('doctor_dashboard')

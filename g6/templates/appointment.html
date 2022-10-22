@@ -16,7 +16,13 @@
                               <h2>Arrange an appointment</h2>
                               <p>We can't wait to see you face to face </p>
                          </div>
-
+                         {% if messages %}
+                              {% for message in messages %}
+                              <div class="alert alert-success" role="alert">
+                                   <p>{{message}}</p>
+                              </div>
+                              {% endfor %}
+                         {% endif %}
                          <form id="appointment-form" role="form" method="post" action="#">
                               {% csrf_token %}
                                    <div class="col-md-6 col-sm-6">
@@ -38,7 +44,7 @@
                                         <button type="submit" class="form-control" id="cf-submit" name="submit">Make Appoinment</button>
                                    </div>
                               </div>
-                        </form>
+                         </form>
                     </section>
                     </div>
                     

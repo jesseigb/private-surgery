@@ -83,6 +83,13 @@
                     <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
                          <h2>Manage appointments and reports</h2>
                     </div>
+                    {% if messages %}
+                              {% for message in messages %}
+                              <div class="alert alert-success" role="alert">
+                                   <p>{{message}}</p>
+                              </div>
+                              {% endfor %}
+                    {% endif %}
                     <div class="col-md-12 col-sm-12">
                          <div id="left-side-profile" class="col-md-3">
                               <div onclick="profileMenu()" id="my-details-button" class="profile-options-buttons appointment-btn"><h5>My Details</h5></div>
