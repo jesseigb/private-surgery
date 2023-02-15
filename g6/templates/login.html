@@ -55,6 +55,13 @@
                     <section id="appointment" data-stellar-background-ratio="3">
 
                     <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                         {% if messages %}
+                              {% for message in messages %}
+                              <div class="alert alert-danger" role="alert">
+                                   <p>{{message}}</p>
+                              </div>
+                              {% endfor %}
+                         {% endif %}
                          <h2>Login</h2>
                          <p>Log In to be able to make reports and book appointments with our doctors</p>
                          <p class="text-warning">As this is not a final product you can use the credentials below to test the web project :)</p>
