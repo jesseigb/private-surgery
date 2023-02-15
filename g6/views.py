@@ -33,16 +33,6 @@ def appointment(request):
         new_appointment.save()
         Doctor_Availability.objects.filter(id=request.POST['availability']).update(full=True)
 
-        # Send an email
-        send_mail(
-            'Appointment Confirmation', # Email Subject
-            'On the ' + str(new_appointment.appointment_details.date) + ' at ' 
-            + str(new_appointment.appointment_details.time) + ' with Dr. ' 
-            + new_appointment.appointment_details.doctor.user.first_name + ' ' + new_appointment.appointment_details.doctor.user.last_name, # Email body message
-            '1yunusarslan1@gmail.com', # From email
-            [request.user.email], # To email
-        )
-
         messages.success(request, ('Appointment successfully arranged, see you soon!'))
 
     return render(request, 'appointment.html', {'all': all_availability})
@@ -180,15 +170,6 @@ def edit_appointment(request, id):
 
     doctor_availability.update(date=date, time=time)
 
-    # Send an email
-    send_mail(
-        'Appointment Date Change', # Email Subject
-            'Your Appointment with Dr ' + request.user.first_name + ' ' 
-            + request.user.last_name + ' has been revised. Log into your account to see it.',  # Email body message
-            '1yunusarslan1@gmail.com', # From email
-            [appointment.patient.user.email], # To email
-    )
-
     messages.success(request, ('Appointment successfully edited'))
     return redirect('doctor_dashboard')
 
@@ -213,14 +194,6 @@ def report_reply(request, id):
         bot_text = 'For mental health concerns please call 116 123, there is always help for you, you are never alone'
     
     email_body = 'Your report: ' + report.issue + "\n" + 'Doctor reply: ' + reply_message + "\n" + bot_text
-
-    # Send an email
-    send_mail(
-        'Re: Your doctor has replied to your report', # Email Subject
-        email_body, # Email body message
-        '1yunusarslan1@gmail.com', # From email
-        [patient.email], # To email
-    )
 
     report.delete()
 
