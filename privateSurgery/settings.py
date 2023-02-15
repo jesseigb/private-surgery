@@ -79,8 +79,14 @@ WSGI_APPLICATION = 'privateSurgery.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': '0uHWeY5G1qpmHpXxtAXW',
+        'HOST': 'containers-us-west-159.railway.app',
+        'PORT': '8030',
     }
 }
 

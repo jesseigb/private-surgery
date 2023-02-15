@@ -7,7 +7,6 @@ class CreateUserForm(UserCreationForm):
     first_name = forms.CharField(max_length=200)
     last_name = forms.CharField(max_length=200)
     gender = forms.ChoiceField(choices=[('Male','Male'), ('Female', 'Female')])
-    contact_number = forms.IntegerField()
 
     class Meta:
         model = User
